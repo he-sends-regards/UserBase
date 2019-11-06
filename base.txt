@@ -1,0 +1,1 @@
+Name: 'user5' Password: '5555' In your account: 100.0 (uah)
