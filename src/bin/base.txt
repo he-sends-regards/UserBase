@@ -1,4 +1,0 @@
-Name: 'user1' Password: '1111' In your account: 100.0 (uah)
-Name: 'user2' Password: '2222' In your account: 100.0 (uah)
-Name: 'user3' Password: '3333' In your account: 100.0 (uah)
-Name: 'user4' Password: '4444' In your account: 100.0 (uah)
