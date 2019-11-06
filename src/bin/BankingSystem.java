@@ -6,15 +6,17 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class BankingSystem {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException { // Main
         startCommand();
     }
 
     private static void startCommand() throws IOException {
+        // Считывание ввода из консоли
         Scanner check = new Scanner(System.in);
         System.out.print("What you need for: ");
         System.out.println("\n(\'register\' - to create an account, \n\'acc\' - to search for your account, \n\'send\' - to send money to another user)");
         String checked = check.next();
+        // Проверка что хотел пользователь и заупск соответсвующей функции
         switch (checked) {
             case "register":
                 register();
@@ -29,9 +31,10 @@ public class BankingSystem {
                 System.out.println("No such services");
                 break;
         }
-        check.close();
+        check.close(); // Закрытие считывателя из консоли
     }
 
+    // Функция регистрации (добавляет пользователя в базу)
     private static void register() {
         Scanner input = new Scanner(System.in);
         System.out.print("Input name: ");
@@ -52,6 +55,7 @@ public class BankingSystem {
         }
     }
 
+    // Функция для просмотра своего аккаунта
     private static void signIn() throws IOException {
         Scanner userCheck = new Scanner(System.in);
         System.out.print("Your name: ");
@@ -66,10 +70,12 @@ public class BankingSystem {
         userCheck.close();
     }
 
+    // Функция для парсинга файла для поиска слова
     private static boolean fileContainsWord(String word) throws IOException {
         return new String(Files.readAllBytes(Paths.get("base.txt"))).contains(word);
     }
 
+    // Функция для отправки денег другому пользователю
     private static void send() {
         Scanner moneySend = new Scanner(System.in);
         System.out.print("To whom money to send: ");
