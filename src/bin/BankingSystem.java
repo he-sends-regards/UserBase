@@ -68,8 +68,8 @@ public class BankingSystem {
         String passwordCheck = userCheck.nextLine();
 
         File file = new File("base.txt");
-
         Scanner scanner = new Scanner(file);
+
         Boolean founder = false;
         String userLine = new String();
         try {
@@ -93,13 +93,50 @@ public class BankingSystem {
     }
 
     // Функция для отправки денег другому пользователю
-    private static void send() {
-        Scanner moneySend = new Scanner(System.in);
+    private static void send() throws IOException {
+        File file = new File("base.txt");
+
+        Scanner moneySendProcess = new Scanner(System.in);
+        System.out.println("Enter your name: ");
+        String senderName = moneySendProcess.nextLine();
+
+        System.out.println("Enter your password: ");
+        String senderPassword = moneySendProcess.nextLine();
+
+        Scanner senderScanner = new Scanner(file);
+        Boolean hasUser = false;
+        try {
+            while(senderScanner.hasNextLine()) {
+                String line = senderScanner.nextLine();
+                if (line.contains("Name: \'" + senderName + "\'" + " Password: " + "\'" + senderPassword + "\'")) {
+                    hasUser = true;
+                }
+            }
+        } finally {   
+            System.out.println(hasUser ? "User found" : "User not found");
+            senderScanner.close();
+        }
+        
+        Scanner recipientScanner = new Scanner(file);
         System.out.print("To whom money to send: ");
-        String recipient = moneySend.nextLine();
+        String recipientName = moneySendProcess.nextLine();
+        Boolean hasRecipient = false;
+        try {
+            while(recipientScanner.hasNextLine()) {
+                String line = recipientScanner.nextLine();
+                if (line.contains("Name: \'" + recipientName + "\'")) {
+                    hasRecipient = true;
+                }
+            }
+        } finally {   
+            System.out.println(hasRecipient ? "Recipient found" : "Recipient not found");
+            recipientScanner.close();
+        }
+
         System.out.print("How much: ");
-        String amount = moneySend.nextLine();
-        moneySend.close();
-        System.out.println(amount + " (uah) has been sent to " + recipient);
+        String amount = moneySendProcess.nextLine();
+
+        moneySendProcess.close();
+        System.out.println(amount + " (uah) has been sent to " + recipientName);
     }
 }
