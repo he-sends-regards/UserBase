@@ -10,8 +10,6 @@ import java.awt.*;
 public class BankingSystem {
     public static void main(String[] args) throws IOException { // Main
         startCommand();
-        BankingFrame frame = new BankingFrame();
-        frame.setVisible(true);
     }
 
     private static void startCommand() throws IOException {
@@ -69,15 +67,29 @@ public class BankingSystem {
         System.out.print("Your password: ");
         String passwordCheck = userCheck.nextLine();
 
-        if (fileContainsWord(nameCheck) && fileContainsWord(passwordCheck)) System.out.println("Account has been found");
-        else System.out.println("Wrong name or password");
+        File file = new File("base.txt");
 
+        Scanner scanner = new Scanner(file);
+        Boolean founder = false;
+        String userLine = new String();
+        try {
+            while(scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.contains("Name: \'" + nameCheck + "\'" + " Password: " + "\'" + passwordCheck + "\'")) {
+                    founder = true;
+                    userLine = line;
+                }
+            }
+            if (founder == true) {
+                System.out.println("Account has been found");
+                System.out.println(userLine);
+            } else {
+                System.out.println("Wrong name or password");
+            }
+        } finally {   
+            scanner.close();
+        }
         userCheck.close();
-    }
-
-    // Функция для парсинга файла для поиска слова
-    private static boolean fileContainsWord(String word) throws IOException {
-        return new String(Files.readAllBytes(Paths.get("base.txt"))).contains(word);
     }
 
     // Функция для отправки денег другому пользователю
@@ -89,29 +101,5 @@ public class BankingSystem {
         String amount = moneySend.nextLine();
         moneySend.close();
         System.out.println(amount + " (uah) has been sent to " + recipient);
-    }
-}
-
-class BankingFrame extends JFrame {
-    private static final long serialVersionUID = 7526472295622776147L; // Написал об этом в стейте
-    BankingFrame() {
-        setBounds(500,200,500,500);
-        setTitle("Lab #3. Task #1");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        BankingPanel panel = new BankingPanel();
-        Container pane = getContentPane();
-        pane.add(panel);
-    }
-}
-
-class BankingPanel extends JPanel {
-    private static final long serialVersionUID = 7526472295622776147L; // Написал об этом в стейте
-    public void paintComponent(Graphics g) {
-        setBackground(Color.BLACK);
-        super.paintComponent(g);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        g.drawString("Hello freaky bitches", 160,40);
     }
 }
