@@ -33,18 +33,27 @@ public class BankingSystem {
                 System.out.println("No such services");
                 break;
         }
-        check.close(); // Закрытие считывателя из консоли
+        // Закрытие считывателя из консоли
+        check.close();
     }
 
     // Функция регистрации (добавляет пользователя в базу)
     private static void register() {
         Scanner input = new Scanner(System.in);
+
+        // Ввод имени
         System.out.print("Input name: ");
         String user = input.nextLine();
+
+        // Ввод пароля
         System.out.print("Input password: ");
         String password = input.nextLine();
+
         input.close();
-        double amount = 100;
+
+        double amount = 100; // Стартовое количество денег
+
+        // Функция записи нового пользователя в базу
         try {
             String userData = ("Name: \'" + user + "\'" + " Password: \'" + password + "\'" + " In your account: " + amount + " (uah)");
             FileWriter writer = new FileWriter("base.txt", true);
@@ -60,16 +69,20 @@ public class BankingSystem {
 
     // Функция для просмотра своего аккаунта
     private static void signIn() throws IOException {
+
+        // Ввод имени
         Scanner userCheck = new Scanner(System.in);
         System.out.print("Your name: ");
         String nameCheck = userCheck.nextLine();
 
+        // Ввод пароля
         System.out.print("Your password: ");
         String passwordCheck = userCheck.nextLine();
 
         File file = new File("base.txt");
         Scanner scanner = new Scanner(file);
 
+        // Построчный парсер введенных имени и пароля
         Boolean founder = false;
         String userLine = new String();
         try {
@@ -96,36 +109,47 @@ public class BankingSystem {
     private static void send() throws IOException {
         File file = new File("base.txt");
 
+        // Ввод имени
         Scanner moneySendProcess = new Scanner(System.in);
         System.out.println("Enter your name: ");
         String senderName = moneySendProcess.nextLine();
 
+        // Ввод пароля
         System.out.println("Enter your password: ");
         String senderPassword = moneySendProcess.nextLine();
 
+        // Проверка, существует ли в базе этот юзер
         Scanner senderScanner = new Scanner(file);
+        String userData = new String();
         Boolean hasUser = false;
         try {
             while(senderScanner.hasNextLine()) {
                 String line = senderScanner.nextLine();
                 if (line.contains("Name: \'" + senderName + "\'" + " Password: " + "\'" + senderPassword + "\'")) {
                     hasUser = true;
+                    userData = line;
                 }
             }
-        } finally {   
+        } finally {   // Задача, выполняющаяся по завершению try
             System.out.println(hasUser ? "User found" : "User not found");
             senderScanner.close();
         }
         
+        // Ввод получателя
+        // Проверка есть ли получатель в базе
         Scanner recipientScanner = new Scanner(file);
         System.out.print("To whom money to send: ");
         String recipientName = moneySendProcess.nextLine();
+
         Boolean hasRecipient = false;
+        String recipientData = new String();
+
         try {
             while(recipientScanner.hasNextLine()) {
                 String line = recipientScanner.nextLine();
                 if (line.contains("Name: \'" + recipientName + "\'")) {
                     hasRecipient = true;
+                    recipientData = line;
                 }
             }
         } finally {   
@@ -133,11 +157,17 @@ public class BankingSystem {
             recipientScanner.close();
         }
 
+        // Если юзер найден, его пароль верный, и найден получатель, то запускается перевод денег
         if (hasUser && hasRecipient) {
             System.out.print("How much: ");
             String amount = moneySendProcess.nextLine();
             System.out.println(amount + " (uah) has been sent to " + recipientName);
+            moneySendProcess.close();
+
+            // Достаём количество денег юзера
+            String userMoney = userData.substring(userData.indexOf("In your account: ") + 17, userData.indexOf(" (uah)"));
+            // Достаём количество денег получателя
+            String recipientMoney = recipientData.substring(recipientData.indexOf("In your account: ") + 17, recipientData.indexOf(" (uah)"));
         }
-        moneySendProcess.close();
     }
 }
