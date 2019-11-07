@@ -133,10 +133,11 @@ public class BankingSystem {
             recipientScanner.close();
         }
 
-        System.out.print("How much: ");
-        String amount = moneySendProcess.nextLine();
-
+        if (hasUser && hasRecipient) {
+            System.out.print("How much: ");
+            String amount = moneySendProcess.nextLine();
+            System.out.println(amount + " (uah) has been sent to " + recipientName);
+        }
         moneySendProcess.close();
-        System.out.println(amount + " (uah) has been sent to " + recipientName);
     }
 }
