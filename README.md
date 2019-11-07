@@ -4,11 +4,11 @@
     postscriptum.no
 </a>
 <a href="https://www.instagram.com/postscriptum.no/">
-    <img src="https://www.instagram.com/p/B08uAYslzkk/"/>
+    Instagram
 </a>
 <a href="https://github.com/danylokarpenko">
     danylokarpenko
 </a>
 <a href="https://github.com/danylokarpenko">
-    <img src="https://www.instagram.com/p/B1ZkIiroJEf/"/>
+    Instagram
 </a>
