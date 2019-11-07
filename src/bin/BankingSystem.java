@@ -128,6 +128,7 @@ public class BankingSystem {
                 if (line.contains("Name: \'" + senderName + "\'" + " Password: " + "\'" + senderPassword + "\'")) {
                     hasUser = true;
                     userData = line;
+
                 }
             }
         } finally {   // Задача, выполняющаяся по завершению try
@@ -160,14 +161,29 @@ public class BankingSystem {
         // Если юзер найден, его пароль верный, и найден получатель, то запускается перевод денег
         if (hasUser && hasRecipient) {
             System.out.print("How much: ");
-            String amount = moneySendProcess.nextLine();
+            Double amount = moneySendProcess.nextDouble();
             System.out.println(amount + " (uah) has been sent to " + recipientName);
             moneySendProcess.close();
 
-            // Достаём количество денег юзера
-            String userMoney = userData.substring(userData.indexOf("In your account: ") + 17, userData.indexOf(" (uah)"));
-            // Достаём количество денег получателя
-            String recipientMoney = recipientData.substring(recipientData.indexOf("In your account: ") + 17, recipientData.indexOf(" (uah)"));
+            // Достаём количество денег юзера и делаем числом
+            double userMoney = Double.parseDouble(userData.substring(userData.indexOf("In your account: ") + 17, userData.indexOf(" (uah)")));
+            // Достаём количество денег получателя и делаем числом
+            double recipientMoney = Double.parseDouble(recipientData.substring(recipientData.indexOf("In your account: ") + 17, recipientData.indexOf(" (uah)")));
+
+            System.out.println("На вашем счету теперь: " + (userMoney - amount));
+            System.out.println("На счету получателя теперь: " + (recipientMoney + amount));
+
+            Scanner rewriting = new Scanner(file);
+            try {
+                while(rewriting.hasNextLine()) {
+                    String line = rewriting.nextLine();
+                    if (line.contains("Name: \'" + senderName + "\'" + " Password: " + "\'" + senderPassword + "\'")) {
+                        line.replace(line, ("Name: \'" + senderName + "\'" + " Password: " + "\'" + senderPassword + "\'" + " In your account: " + userMoney));
+                    }
+                }
+            } finally {   
+                rewriting.close();
+            }
         }
     }
 }
