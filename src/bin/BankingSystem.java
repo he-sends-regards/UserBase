@@ -6,37 +6,39 @@ import javax.swing.*;
 import javax.imageio.ImageIO;
 import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class BankingSystem {
     static Stack userData = new Stack();
+
     public static void main(String[] args) {
-        // register();
-        StartWindow myProgram = new StartWindow();
-        myProgram.setVisible(true);
+        register();
+        // LoginWindow loginWindow = new LoginWindow();
+        // loginWindow.setVisible(true);
 
-        LoginWindow loginWindow = new LoginWindow();
-        loginWindow.setVisible(true);
+        // RegisterWindow registerWindow = new RegisterWindow();
+        // registerWindow.setVisible(true);
 
-        RegisterWindow registerWindow = new RegisterWindow();
-        registerWindow.setVisible(true);
+        // SendingMoneyWindow sendWindow = new SendingMoneyWindow();
+        // sendWindow.setVisible(true);
 
-        SendingMoneyWindow sendWindow = new SendingMoneyWindow();
-        sendWindow.setVisible(true);
+        // GettingMoneyWindow getWindow = new GettingMoneyWindow();
+        // getWindow.setVisible(true);
 
-        GettingMoneyWindow getWindow = new GettingMoneyWindow();
-        getWindow.setVisible(true);
-
-        // Vector elements = new Vector();
-        // elements.add(1);
-        // elements.add(2);
-        // elements.add(3);
-        // HistoryWindow historyWindow = new HistoryWindow(elements);
-        // historyWindow.setVisible(true);
-        MainWindow mainWindow = new MainWindow("Danylo Karpenko", 90111);
-        mainWindow.setVisible(true);
+        // // Vector elements = new Vector();
+        // // elements.add(1);
+        // // elements.add(2);
+        // // elements.add(3);
+        // // HistoryWindow historyWindow = new HistoryWindow(elements);
+        // // historyWindow.setVisible(true);
+        // MainWindow mainWindow = new MainWindow("Danylo Karpenko", 90111);
+        // mainWindow.setVisible(true);
     }
 
     private static void register() {
+        StartWindow myProgram = new StartWindow();
+        myProgram.setVisible(true);
+
         Hashtable newUser = new Hashtable();
         Scanner input = new Scanner(System.in);
         System.out.print("Input name: ");
@@ -54,11 +56,63 @@ public class BankingSystem {
     }
 }
 
+class StartWindow extends JFrame {
+    private static final long serialVersionUID = 1L;
+
+    public StartWindow() {
+        super("Welcome!");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        Box box1 = Box.createHorizontalBox();
+        JLabel hello = new JLabel("Hello!");
+        hello.setAlignmentX(CENTER_ALIGNMENT);
+        box1.add(hello);
+
+        Box box2 = Box.createHorizontalBox();
+        JLabel action = new JLabel("Please, log in.");
+        action.setAlignmentX(CENTER_ALIGNMENT);
+        box2.add(action);
+
+        Box box3 = Box.createHorizontalBox();
+        JButton signIn = new JButton("Sign in");
+        JButton register = new JButton("Register");
+        box3.add(Box.createHorizontalGlue());
+        box3.add(signIn);
+        box3.add(Box.createHorizontalStrut(12));
+        box3.add(register);
+
+        signIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                LoginWindow loginWindow = new LoginWindow();
+                loginWindow.setVisible(true);
+            }
+        });
+
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                RegisterWindow registerWindow = new RegisterWindow();
+                registerWindow.setVisible(true);
+            }
+        });
+
+        Box mainBox = Box.createVerticalBox();
+        mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
+        mainBox.add(box1);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box2);
+        mainBox.add(Box.createVerticalStrut(17));
+        mainBox.add(box3);
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+    }
+}
 
 class GettingMoneyWindow extends JFrame {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public GettingMoneyWindow() {
@@ -105,9 +159,6 @@ class GettingMoneyWindow extends JFrame {
 
 
 class HistoryWindow extends JFrame {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public HistoryWindow(Vector elements) {
@@ -139,9 +190,6 @@ class HistoryWindow extends JFrame {
 
 
 class LoginWindow extends JFrame {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public LoginWindow() {
@@ -187,9 +235,6 @@ class LoginWindow extends JFrame {
 
 
 class MainWindow extends JFrame {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public MainWindow(String fullName, Number money) {
@@ -248,9 +293,6 @@ class MainWindow extends JFrame {
 
 
 class RegisterWindow extends JFrame {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public RegisterWindow() {
@@ -332,9 +374,6 @@ class RegisterWindow extends JFrame {
 
 
 class SendingMoneyWindow extends JFrame {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public SendingMoneyWindow() {
@@ -377,49 +416,6 @@ class SendingMoneyWindow extends JFrame {
         setResizable(false);
     }
 }
-
-
-class StartWindow extends JFrame {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
-    public StartWindow() {
-        super("Welcome!");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        Box box1 = Box.createHorizontalBox();
-        JLabel hello = new JLabel("Hello!");
-        hello.setAlignmentX(CENTER_ALIGNMENT);
-        box1.add(hello);
-
-        Box box2 = Box.createHorizontalBox();
-        JLabel action = new JLabel("Please, log in.");
-        action.setAlignmentX(CENTER_ALIGNMENT);
-        box2.add(action);
-
-        Box box3 = Box.createHorizontalBox();
-        JButton signIn = new JButton("Sign in");
-        JButton register = new JButton("Register");
-        box3.add(Box.createHorizontalGlue());
-        box3.add(signIn);
-        box3.add(Box.createHorizontalStrut(12));
-        box3.add(register);
-
-        Box mainBox = Box.createVerticalBox();
-        mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
-        mainBox.add(box1);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box2);
-        mainBox.add(Box.createVerticalStrut(17));
-        mainBox.add(box3);
-        setContentPane(mainBox);
-        pack();
-        setResizable(false);
-    }
-}
-
 
 // import java.io.*;
 // import java.nio.file.Files;
