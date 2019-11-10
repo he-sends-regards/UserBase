@@ -1,13 +1,39 @@
 package bin;
 
 import java.io.*;
-import java.util.Hashtable;
 import java.util.*;
+import javax.swing.*;
+import javax.imageio.ImageIO;
+import javax.swing.border.*;
+import java.awt.*;
 
 public class BankingSystem {
     static Stack userData = new Stack();
     public static void main(String[] args) {
-        register();
+        // register();
+        StartWindow myProgram = new StartWindow();
+        myProgram.setVisible(true);
+
+        LoginWindow loginWindow = new LoginWindow();
+        loginWindow.setVisible(true);
+
+        RegisterWindow registerWindow = new RegisterWindow();
+        registerWindow.setVisible(true);
+
+        SendingMoneyWindow sendWindow = new SendingMoneyWindow();
+        sendWindow.setVisible(true);
+
+        GettingMoneyWindow getWindow = new GettingMoneyWindow();
+        getWindow.setVisible(true);
+
+        // Vector elements = new Vector();
+        // elements.add(1);
+        // elements.add(2);
+        // elements.add(3);
+        // HistoryWindow historyWindow = new HistoryWindow(elements);
+        // historyWindow.setVisible(true);
+        MainWindow mainWindow = new MainWindow("Danylo Karpenko", 90111);
+        mainWindow.setVisible(true);
     }
 
     private static void register() {
@@ -27,6 +53,373 @@ public class BankingSystem {
         System.out.println("Your account: [ " + userData + " ]");
     }
 }
+
+
+class GettingMoneyWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public GettingMoneyWindow() {
+        super("Getting Money");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+// Настраиваем первую горизонтальную панель (для ввода логина)
+        Box box1 = Box.createHorizontalBox();
+        JLabel amountLabel = new JLabel("Amount:");
+        JTextField loginField = new JTextField(15);
+        box1.add(amountLabel);
+        box1.add(Box.createHorizontalStrut(6));
+        box1.add(loginField);
+// Настраиваем вторую горизонтальную панель (для ввода пароля)
+        Box box2 = Box.createHorizontalBox();
+        JLabel idLabel = new JLabel("ID code:");
+        JPasswordField idField = new JPasswordField(15);
+        box2.add(idLabel);
+        box2.add(Box.createHorizontalStrut(6));
+        box2.add(idField);
+// Настраиваем третью горизонтальную панель (с кнопками)
+        Box box3 = Box.createHorizontalBox();
+        JButton ok = new JButton("Get");
+        JButton cancel = new JButton("Cancel");
+        box3.add(Box.createHorizontalGlue());
+        box3.add(ok);
+        box3.add(Box.createHorizontalStrut(12));
+        box3.add(cancel);
+// Уточняем размеры компонентов
+        idLabel.setPreferredSize(amountLabel.getPreferredSize());
+// Размещаем три горизонтальные панели на одной вертикальной
+        Box mainBox = Box.createVerticalBox();
+        mainBox.setBorder(new EmptyBorder(12,12,12,12));
+        mainBox.add(box1);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box2);
+        mainBox.add(Box.createVerticalStrut(17));
+        mainBox.add(box3);
+
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+    }
+}
+
+
+class HistoryWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public HistoryWindow(Vector elements) {
+        super("History of operations");
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+
+        String text = "<html>The history of your operations: " + "<ul>";
+        for (int i = 0; i < elements.size(); i++) {
+            text = text + "<li>" + elements.get(i) + "</li>";
+        }
+        text += "</ul>";
+
+        JLabel label = new JLabel(text);
+
+        final JScrollPane scroll = new JScrollPane(label);
+
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        mainPanel.add(scroll, BorderLayout.CENTER);
+        getContentPane().add(mainPanel);
+        setPreferredSize(new Dimension(350, 200));
+        pack();
+        setResizable(false);
+    }
+}
+
+
+class LoginWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public LoginWindow() {
+        super("Login");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+// Настраиваем первую горизонтальную панель (для ввода логина)
+        Box box1 = Box.createHorizontalBox();
+        JLabel loginLabel = new JLabel("Login:");
+        JTextField loginField = new JTextField(15);
+        box1.add(loginLabel);
+        box1.add(Box.createHorizontalStrut(6));
+        box1.add(loginField);
+// Настраиваем вторую горизонтальную панель (для ввода пароля)
+        Box box2 = Box.createHorizontalBox();
+        JLabel passwordLabel = new JLabel("Password:");
+        JPasswordField passwordField = new JPasswordField(15);
+        box2.add(passwordLabel);
+        box2.add(Box.createHorizontalStrut(6));
+        box2.add(passwordField);
+// Настраиваем третью горизонтальную панель (с кнопками)
+        Box box3 = Box.createHorizontalBox();
+        JButton ok = new JButton("Ok");
+        JButton cancel = new JButton("Cancel");
+        box3.add(Box.createHorizontalGlue());
+        box3.add(ok);
+        box3.add(Box.createHorizontalStrut(12));
+        box3.add(cancel);
+// Уточняем размеры компонентов
+        loginLabel.setPreferredSize(passwordLabel.getPreferredSize());
+// Размещаем три горизонтальные панели на одной вертикальной
+        Box mainBox = Box.createVerticalBox();
+        mainBox.setBorder(new EmptyBorder(12,12,12,12));
+        mainBox.add(box1);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box2);
+        mainBox.add(Box.createVerticalStrut(17));
+        mainBox.add(box3);
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+    }
+}
+
+
+class MainWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public MainWindow(String fullName, Number money) {
+        super("Main Window");
+
+        // BufferedImage cityImage = ImageIO.read(new File("../../img/city-bank300x500.jpg"));
+        // JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
+        // BufferedImage avatar = ImageIO.read(new File("img/myAvatar200x200.png"));
+        // JLabel avatarLabel = new JLabel(new ImageIcon(avatar));
+        JLabel fullNameLabel = new JLabel("Full name: " + fullName);
+        JLabel moneyLabel = new JLabel("Money: " + money);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(createPanel(new SoftBevelBorder(BevelBorder.RAISED), "Send money"));
+        buttonPanel.add(createPanel(new SoftBevelBorder(BevelBorder.RAISED), "Get money"));
+//        JButton sendBt = new JButton("Send money");
+//        JButton getBt = new JButton("Get money");
+
+        Box userBox = Box.createVerticalBox();
+        // userBox.add(avatarLabel);
+        userBox.add(Box.createVerticalStrut(20));
+        userBox.add(fullNameLabel);
+        userBox.add(Box.createVerticalStrut(20));
+        userBox.add(moneyLabel);
+
+        // Box cityBox = Box.createHorizontalBox();
+        // cityBox.add(cityLabel);
+
+        Box workBox = Box.createVerticalBox();
+        workBox.add(Box.createVerticalStrut(20));
+        // workBox.add(cityBox);
+        workBox.add(Box.createVerticalStrut(20));
+        workBox.add(buttonPanel);
+        workBox.add(Box.createVerticalStrut(20));
+
+        Box mainBox = Box.createHorizontalBox();
+        mainBox.add(Box.createHorizontalStrut(20));
+        mainBox.add(userBox);
+        mainBox.add(Box.createHorizontalStrut(20));
+        mainBox.add(workBox);
+        mainBox.add(Box.createHorizontalStrut(20));
+
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+    }
+
+    private JPanel createPanel(Border border, String text) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(new JButton(text));
+        panel.setBorder(new CompoundBorder(new EmptyBorder(12,12,12,12), border));
+        return panel;
+    }
+}
+
+
+class RegisterWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public RegisterWindow() {
+        super("Register");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        Box box1 = Box.createHorizontalBox();
+        JLabel fullNameLabel = new JLabel("Full name:");
+        JTextField fullNameField = new JTextField(15);
+        box1.add(fullNameLabel);
+        box1.add(Box.createHorizontalStrut(6));
+        box1.add(fullNameField);
+
+        Box box2 = Box.createHorizontalBox();
+        JLabel loginLabel = new JLabel("Login:");
+        JTextField loginField = new JTextField(15);
+        box2.add(loginLabel);
+        box2.add(Box.createHorizontalStrut(6));
+        box2.add(loginField);
+
+        Box box3 = Box.createHorizontalBox();
+        JLabel passwordLabel = new JLabel("Password:");
+        JPasswordField passwordField = new JPasswordField(15);
+        box3.add(passwordLabel);
+        box3.add(Box.createHorizontalStrut(6));
+        box3.add(passwordField);
+
+        Box box4 = Box.createHorizontalBox();
+        JLabel passwordConfirmLabel = new JLabel("Confirm password:");
+        JPasswordField passwordConfirmField = new JPasswordField(15);
+        box4.add(passwordConfirmLabel);
+        box4.add(Box.createHorizontalStrut(6));
+        box4.add(passwordConfirmField);
+
+        Box box5 = Box.createHorizontalBox();
+        JLabel sexLabel = new JLabel("Choose sex:");
+        JCheckBox male = new JCheckBox("male");
+        JCheckBox female = new JCheckBox("female");
+        ButtonGroup bg = new ButtonGroup(); // создаем группу взаимного исключения
+        bg.add(male);
+        bg.add(female);
+
+        box5.add(sexLabel);
+        box5.add(Box.createHorizontalStrut(6));
+        box5.add(male);
+        box5.add(Box.createHorizontalStrut(6));
+        box5.add(female);
+
+        Box box6 = Box.createHorizontalBox();
+        JButton register = new JButton("Register");
+        JButton cancel = new JButton("Cancel");
+        box6.add(Box.createHorizontalGlue());
+        box6.add(register);
+        box6.add(Box.createHorizontalStrut(12));
+        box6.add(cancel);
+
+        fullNameLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
+        loginLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
+        passwordLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
+
+        Box mainBox = Box.createVerticalBox();
+        mainBox.setBorder(new EmptyBorder(12,12,12,12));
+        mainBox.add(box1);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box2);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box3);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box4);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box5);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box6);
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+    }
+}
+
+
+class SendingMoneyWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public SendingMoneyWindow() {
+        super("Send Money");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+// Настраиваем первую горизонтальную панель (для ввода логина)
+        Box box1 = Box.createHorizontalBox();
+        JLabel recLogin = new JLabel("Recipient login:");
+        JTextField loginField = new JTextField(15);
+        box1.add(recLogin);
+        box1.add(Box.createHorizontalStrut(6));
+        box1.add(loginField);
+// Настраиваем вторую горизонтальную панель (для ввода пароля)
+        Box box2 = Box.createHorizontalBox();
+        JLabel money = new JLabel("Money:");
+        JPasswordField amount = new JPasswordField(15);
+        box2.add(money);
+        box2.add(Box.createHorizontalStrut(6));
+        box2.add(amount);
+// Настраиваем третью горизонтальную панель (с кнопками)
+        Box box3 = Box.createHorizontalBox();
+        JButton ok = new JButton("Send");
+        JButton cancel = new JButton("Cancel");
+        box3.add(Box.createHorizontalGlue());
+        box3.add(ok);
+        box3.add(Box.createHorizontalStrut(12));
+        box3.add(cancel);
+// Уточняем размеры компонентов
+        money.setPreferredSize(recLogin.getPreferredSize());
+// Размещаем три горизонтальные панели на одной вертикальной
+        Box mainBox = Box.createVerticalBox();
+        mainBox.setBorder(new EmptyBorder(12,12,12,12));
+        mainBox.add(box1);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box2);
+        mainBox.add(Box.createVerticalStrut(17));
+        mainBox.add(box3);
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+    }
+}
+
+
+class StartWindow extends JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public StartWindow() {
+        super("Welcome!");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        Box box1 = Box.createHorizontalBox();
+        JLabel hello = new JLabel("Hello!");
+        hello.setAlignmentX(CENTER_ALIGNMENT);
+        box1.add(hello);
+
+        Box box2 = Box.createHorizontalBox();
+        JLabel action = new JLabel("Please, log in.");
+        action.setAlignmentX(CENTER_ALIGNMENT);
+        box2.add(action);
+
+        Box box3 = Box.createHorizontalBox();
+        JButton signIn = new JButton("Sign in");
+        JButton register = new JButton("Register");
+        box3.add(Box.createHorizontalGlue());
+        box3.add(signIn);
+        box3.add(Box.createHorizontalStrut(12));
+        box3.add(register);
+
+        Box mainBox = Box.createVerticalBox();
+        mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
+        mainBox.add(box1);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box2);
+        mainBox.add(Box.createVerticalStrut(17));
+        mainBox.add(box3);
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+    }
+}
+
 
 // import java.io.*;
 // import java.nio.file.Files;
