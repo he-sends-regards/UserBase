@@ -31,20 +31,20 @@ public class BankingSystem {
         StartWindow myProgram = new StartWindow();
         myProgram.setVisible(true);
 
-        Hashtable newUser = new Hashtable();
-        Scanner input = new Scanner(System.in);
-        System.out.print("Input name: ");
-        String user = input.nextLine();
-        System.out.print("Input password: ");
-        String password = input.nextLine();
-        input.close();
+        // Hashtable newUser = new Hashtable();
+        // Scanner input = new Scanner(System.in);
+        // System.out.print("Input name: ");
+        // String user = input.nextLine();
+        // System.out.print("Input password: ");
+        // String password = input.nextLine();
+        // input.close();
 
-        double amount = 100;
-        newUser.put("Name", user);
-        newUser.put("Password", password);
-        newUser.put("Money", amount);
-        userData.push(newUser);
-        System.out.println("Your account: [ " + userData + " ]");
+        // double amount = 100;
+        // newUser.put("Name", user);
+        // newUser.put("Password", password);
+        // newUser.put("Money", amount);
+        // userData.push(newUser);
+        // System.out.println("Your account: [ " + userData + " ]");
     }
 }
 
@@ -114,6 +114,7 @@ class RegisterWindow extends JFrame {
         Box box1 = Box.createHorizontalBox();
         JLabel fullNameLabel = new JLabel("Full name:");
         JTextField fullNameField = new JTextField(15);
+
         box1.add(fullNameLabel);
         box1.add(Box.createHorizontalStrut(6));
         box1.add(fullNameField);
@@ -127,14 +128,14 @@ class RegisterWindow extends JFrame {
 
         Box box3 = Box.createHorizontalBox();
         JLabel passwordLabel = new JLabel("Password:");
-        JPasswordField passwordField = new JPasswordField(15);
+        JTextField passwordField = new JTextField(15);
         box3.add(passwordLabel);
         box3.add(Box.createHorizontalStrut(6));
         box3.add(passwordField);
 
         Box box4 = Box.createHorizontalBox();
         JLabel passwordConfirmLabel = new JLabel("Confirm password:");
-        JPasswordField passwordConfirmField = new JPasswordField(15);
+        JTextField passwordConfirmField = new JTextField(15);
         box4.add(passwordConfirmLabel);
         box4.add(Box.createHorizontalStrut(6));
         box4.add(passwordConfirmField);
@@ -160,6 +161,12 @@ class RegisterWindow extends JFrame {
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String name = fullNameField.getText();
+                String login = loginField.getText();
+                String password = passwordField.getText();
+
+                System.out.println("User's name is: " + name + "\nUser's Login is: " + login + "\nUser's password is: " + password); //  + "\nSex: " + bg.getSelection()
+
                 setVisible(false);
                 LoginWindow loginWindow = new LoginWindow();
                 loginWindow.setVisible(true);
@@ -213,13 +220,15 @@ class LoginWindow extends JFrame {
         Box box1 = Box.createHorizontalBox();
         JLabel loginLabel = new JLabel("Login:");
         JTextField loginField = new JTextField(15);
+
         box1.add(loginLabel);
         box1.add(Box.createHorizontalStrut(6));
         box1.add(loginField);
 // Настраиваем вторую горизонтальную панель (для ввода пароля)
         Box box2 = Box.createHorizontalBox();
         JLabel passwordLabel = new JLabel("Password:");
-        JPasswordField passwordField = new JPasswordField(15);
+        JTextField passwordField = new JTextField(15);
+
         box2.add(passwordLabel);
         box2.add(Box.createHorizontalStrut(6));
         box2.add(passwordField);
@@ -231,6 +240,10 @@ class LoginWindow extends JFrame {
         ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String login = loginField.getText();
+                String password = passwordField.getText();
+                System.out.println("User's Login is: " + login + "\nUser's password is: " + password);
+
                 setVisible(false);
                 MainWindow mainWindow = new MainWindow("Ivan", 10000);
                 mainWindow.setVisible(true);
