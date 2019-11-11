@@ -256,7 +256,7 @@ class LoginWindow extends JFrame {
                 if (login.length() != 0 && password.length() != 0) {
                     System.out.println("User's Login is: " + login + "\nUser's password is: " + password);
                     setVisible(false);
-                    MainWindow mainWindow = new MainWindow("Ivan", 10000);
+                    MainWindow mainWindow = new MainWindow(login, 10000);
                     mainWindow.setVisible(true);
                 } else
                     JOptionPane.showMessageDialog(null, "Empty data");
