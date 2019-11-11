@@ -20,34 +20,15 @@ public class BankingSystem {
     static Stack userData = new Stack();
 
     public static void main(String[] args) {
-        register();
-
+        StartWindow myProgram = new StartWindow();
+        myProgram.setVisible(true);
+        
         // // Vector elements = new Vector();
         // // elements.add(1);
         // // elements.add(2);
         // // elements.add(3);
         // // HistoryWindow historyWindow = new HistoryWindow(elements);
         // // historyWindow.setVisible(true);
-    }
-
-    private static void register() {
-        StartWindow myProgram = new StartWindow();
-        myProgram.setVisible(true);
-
-        // Hashtable newUser = new Hashtable();
-        // Scanner input = new Scanner(System.in);
-        // System.out.print("Input name: ");
-        // String user = input.nextLine();
-        // System.out.print("Input password: ");
-        // String password = input.nextLine();
-        // input.close();
-
-        // double amount = 100;
-        // newUser.put("Name", user);
-        // newUser.put("Password", password);
-        // newUser.put("Money", amount);
-        // userData.push(newUser);
-        // System.out.println("Your account: [ " + userData + " ]");
     }
 }
 
