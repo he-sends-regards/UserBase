@@ -1,3 +1,11 @@
+/*
+    # Author: Lutskiy Ivan
+    # Alias: postscriptumno
+    # Gmail: postscriptum.no@gmail.com
+    # Project: BankingSystem
+    # Date: the 5th of November 2019
+    # GitHub: https://github.com/postscriptumno/BankingSystem
+*/
 package bin;
 
 import java.util.Scanner;
