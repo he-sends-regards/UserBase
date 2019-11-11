@@ -1,6 +1,5 @@
 /*
-    # Author: Lutskiy Ivan
-    # Alias: postscriptumno
+    # Authors: Lutskiy Ivan & Karpenko Danylo
     # Gmail: postscriptum.no@gmail.com
     # Project: BankingSystem
     # Date: the 5th of November 2019
