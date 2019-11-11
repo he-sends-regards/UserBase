@@ -213,6 +213,15 @@ class RegisterWindow extends JFrame {
         pack();
         setResizable(false);
     }
+    private static boolean isPasswordsEqual(char[] pass1, char[] pass2) {
+        boolean isCorrect = true;
+        if (pass1.length != pass2.length) {
+            isCorrect = false;
+        } else {
+            isCorrect = Arrays.equals (pass1, pass2);
+        }
+        return isCorrect;
+    };
 }
 
 class LoginWindow extends JFrame {
@@ -291,7 +300,8 @@ class MainWindow extends JFrame {
 
     public MainWindow(String fullName, Number money) {
         super("Main Window");
-
+        JMenuBar menuBar = new MainWindowMenuBar(MainWindow.this);
+        setJMenuBar(menuBar);
         // BufferedImage cityImage = ImageIO.read(new
         // File("../../img/city-bank300x500.jpg"));
         // JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
@@ -511,5 +521,50 @@ class SendingMoneyWindow extends JFrame {
         setContentPane(mainBox);
         pack();
         setResizable(false);
+    }
+}
+
+class MainWindowMenuBar extends JMenuBar {
+    public MainWindowMenuBar(MainWindow mainWindow) {
+        super();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem exit = new JMenuItem("Exit");
+
+        fileMenu.add(exit);
+
+        JMenu userMenu = new JMenu("User");
+        JMenuItem logIn = new JMenuItem("Change user/Log in");
+        JMenuItem register = new JMenuItem("Register");
+
+        userMenu.add(logIn);
+        userMenu.add(register);
+
+        add(fileMenu);
+        add(userMenu);
+
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (JOptionPane.showConfirmDialog(exit, "Are you sure?") == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
+        logIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                LoginWindow login = new LoginWindow();
+                login.setVisible(true);
+            }
+        });
+
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                RegisterWindow register = new RegisterWindow();
+                register.setVisible(true);
+            }
+        });
     }
 }
