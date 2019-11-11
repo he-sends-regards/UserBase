@@ -1,5 +1,6 @@
 package bin;
 
+import java.util.Scanner;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -13,6 +14,7 @@ public class BankingSystem {
 
     public static void main(String[] args) {
         register();
+
         // // Vector elements = new Vector();
         // // elements.add(1);
         // // elements.add(2);
@@ -122,14 +124,14 @@ class RegisterWindow extends JFrame {
 
         Box box3 = Box.createHorizontalBox();
         JLabel passwordLabel = new JLabel("Password:");
-        JTextField passwordField = new JTextField(15);
+        JPasswordField passwordField = new JPasswordField(15);
         box3.add(passwordLabel);
         box3.add(Box.createHorizontalStrut(6));
         box3.add(passwordField);
 
         Box box4 = Box.createHorizontalBox();
         JLabel passwordConfirmLabel = new JLabel("Confirm password:");
-        JTextField passwordConfirmField = new JTextField(15);
+        JPasswordField passwordConfirmField = new JPasswordField(15);
         box4.add(passwordConfirmLabel);
         box4.add(Box.createHorizontalStrut(6));
         box4.add(passwordConfirmField);
@@ -157,22 +159,35 @@ class RegisterWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String name = fullNameField.getText();
                 String login = loginField.getText();
-                String password = passwordField.getText();
+                char[] password = passwordField.getPassword();
+                char[] passwordConfirm = passwordConfirmField.getPassword();
                 String sex = "";
-
+                String passwordStr = new String(password);
                 if (male.isSelected())
                     sex = "Male";
                 else if (female.isSelected())
                     sex = "Female";
 
-                if (name.length() != 0 && login.length() != 0 && password.length() != 0 && sex != "") {
-                    String userDataStr = ("User's name is: " + name + "\nUser's Login is: " + login
-                            + "\nUser's password is: " + password + "\nSex: " + sex);
-                    JOptionPane.showMessageDialog(null, userDataStr);
-
-                    setVisible(false);
-                    LoginWindow loginWindow = new LoginWindow();
-                    loginWindow.setVisible(true);
+                if (name.length() != 0 && login.length() != 0 && password.length != 0 && passwordConfirm.length != 0
+                        && sex != "") {
+                    if (arePasswordsEqual(password, passwordConfirm)) {
+                        String userDataStr = ("User's name is: " + name + "\nUser's Login is: " + login
+                                + "\nUser's password is: " + passwordStr + "\nSex: " + sex);
+                        JOptionPane.showMessageDialog(null, userDataStr);
+                        setVisible(false);
+                        LoginWindow loginWindow = new LoginWindow();
+                        loginWindow.setVisible(true);
+                        try {
+                            String dataToBase = ("Name: [" + name + "] Login: [" + login + "] Password is: [" + passwordStr + "] Sex: [" + sex + "]\n");
+                            FileWriter writer = new FileWriter("base.txt", true);
+                            writer.write(dataToBase);
+                            writer.flush();
+                            writer.close();
+                        } catch (Exception exception) {
+                            System.err.println("Error with file writing");
+                        }
+                    } else
+                        JOptionPane.showMessageDialog(null, "Passwords are not equal");
                 } else
                     JOptionPane.showMessageDialog(null, "Empty data");
             }
@@ -213,15 +228,16 @@ class RegisterWindow extends JFrame {
         pack();
         setResizable(false);
     }
-    private static boolean isPasswordsEqual(char[] pass1, char[] pass2) {
+
+    private static boolean arePasswordsEqual(char[] pass1, char[] pass2) {
         boolean isCorrect = true;
         if (pass1.length != pass2.length) {
             isCorrect = false;
         } else {
-            isCorrect = Arrays.equals (pass1, pass2);
+            isCorrect = Arrays.equals(pass1, pass2);
         }
         return isCorrect;
-    };
+    }
 }
 
 class LoginWindow extends JFrame {
@@ -241,7 +257,7 @@ class LoginWindow extends JFrame {
         // Настраиваем вторую горизонтальную панель (для ввода пароля)
         Box box2 = Box.createHorizontalBox();
         JLabel passwordLabel = new JLabel("Password:");
-        JTextField passwordField = new JTextField(15);
+        JPasswordField passwordField = new JPasswordField(15);
 
         box2.add(passwordLabel);
         box2.add(Box.createHorizontalStrut(6));
@@ -254,13 +270,36 @@ class LoginWindow extends JFrame {
         ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String login = loginField.getText();
-                String password = passwordField.getText();
-                if (login.length() != 0 && password.length() != 0) {
-                    System.out.println("User's Login is: " + login + "\nUser's password is: " + password);
-                    setVisible(false);
-                    MainWindow mainWindow = new MainWindow(login, 10000);
-                    mainWindow.setVisible(true);
+                File file = new File("base.txt");
+                String login = loginField.getText(); // Введенный логин
+                char[] password = passwordField.getPassword(); // Введенный пароль
+                String passwordStr = new String(password); // Пароль в строку
+
+                if (login.length() != 0 && password.length != 0) {
+                    try {
+                        Scanner scanner = new Scanner(file); // Сканер по базе
+                        Boolean founder = false; // Искатель совпадения
+                        String userLine = new String(); // Найденная строка
+                            while (scanner.hasNextLine()) { // Цикл пока есть лайны
+                                String line = scanner.nextLine(); // Получает строку
+                                if (line.contains("Login: [" + login + "]" + " Password is: [" + passwordStr + "]")){ // Есть ли такие данные в строке
+                                    founder = true;
+                                    userLine = line;
+                                }
+                            }
+
+                            if (founder == true) {
+                                JOptionPane.showMessageDialog(null, ("User found: " + userLine));
+                                setVisible(false);
+                                MainWindow mainWindow = new MainWindow(login, 10000);
+                                mainWindow.setVisible(true);
+                            }
+                            else 
+                                JOptionPane.showMessageDialog(null, "User not found");
+                                scanner.close();
+                        } catch (FileNotFoundException exception) {
+                            System.err.println("File not found");
+                        }
                 } else
                     JOptionPane.showMessageDialog(null, "Empty data");
             }
@@ -525,6 +564,8 @@ class SendingMoneyWindow extends JFrame {
 }
 
 class MainWindowMenuBar extends JMenuBar {
+    private static final long serialVersionUID = 1L;
+
     public MainWindowMenuBar(MainWindow mainWindow) {
         super();
         JMenu fileMenu = new JMenu("File");
