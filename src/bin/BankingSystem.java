@@ -164,13 +164,14 @@ class RegisterWindow extends JFrame {
                 String name = fullNameField.getText();
                 String login = loginField.getText();
                 String password = passwordField.getText();
-
-                System.out.println("User's name is: " + name + "\nUser's Login is: " + login + "\nUser's password is: "
-                        + password); // + "\nSex: " + bg.getSelection()
-
-                setVisible(false);
-                LoginWindow loginWindow = new LoginWindow();
-                loginWindow.setVisible(true);
+                if (name.length() != 0 && login.length() != 0 && password.length() != 0) {
+                    System.out.println("User's name is: " + name + "\nUser's Login is: " + login
+                            + "\nUser's password is: " + password); // + "\nSex: " + bg.getSelection()
+                    setVisible(false);
+                    LoginWindow loginWindow = new LoginWindow();
+                    loginWindow.setVisible(true);
+                } else
+                    JOptionPane.showMessageDialog(null, "Empty data");
             }
         });
 
@@ -243,11 +244,13 @@ class LoginWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String login = loginField.getText();
                 String password = passwordField.getText();
-                System.out.println("User's Login is: " + login + "\nUser's password is: " + password);
-
-                setVisible(false);
-                MainWindow mainWindow = new MainWindow("Ivan", 10000);
-                mainWindow.setVisible(true);
+                if (login.length() != 0 && password.length() != 0) {
+                    System.out.println("User's Login is: " + login + "\nUser's password is: " + password);
+                    setVisible(false);
+                    MainWindow mainWindow = new MainWindow("Ivan", 10000);
+                    mainWindow.setVisible(true);
+                } else
+                    JOptionPane.showMessageDialog(null, "Empty data");
             }
         });
 
@@ -294,9 +297,11 @@ class MainWindow extends JFrame {
         JLabel fullNameLabel = new JLabel("Full name: " + fullName);
         JLabel moneyLabel = new JLabel("Money: " + money);
 
-        JPanel buttonPanel = new JPanel();
-        // buttonPanel.add(createPanel(new SoftBevelBorder(BevelBorder.RAISED), "Send money"));
-        // buttonPanel.add(createPanel(new SoftBevelBorder(BevelBorder.RAISED), "Get money"));
+        // JPanel buttonPanel = new JPanel();
+        // buttonPanel.add(createPanel(new SoftBevelBorder(BevelBorder.RAISED), "Send
+        // money"));
+        // buttonPanel.add(createPanel(new SoftBevelBorder(BevelBorder.RAISED), "Get
+        // money"));
         JButton sendBt = new JButton("Send money");
         JButton getBt = new JButton("Get money");
 
@@ -349,11 +354,11 @@ class MainWindow extends JFrame {
     }
 
     // private JPanel createPanel(Border border, String text) {
-    //     JPanel panel = new JPanel();
-    //     panel.setLayout(new BorderLayout());
-    //     panel.add(new JButton(text));
-    //     panel.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), border));
-    //     return panel;
+    // JPanel panel = new JPanel();
+    // panel.setLayout(new BorderLayout());
+    // panel.add(new JButton(text));
+    // panel.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), border));
+    // return panel;
     // }
 }
 
@@ -485,7 +490,7 @@ class SendingMoneyWindow extends JFrame {
                 setVisible(false);
             }
         });
-        
+
         box3.add(Box.createHorizontalGlue());
         box3.add(ok);
         box3.add(Box.createHorizontalStrut(12));
@@ -504,6 +509,10 @@ class SendingMoneyWindow extends JFrame {
         pack();
         setResizable(false);
     }
+}
+
+class MistakeWindow extends JFrame {
+
 }
 
 // import java.io.*;
