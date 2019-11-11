@@ -13,12 +13,6 @@ public class BankingSystem {
 
     public static void main(String[] args) {
         register();
-        // SendingMoneyWindow sendWindow = new SendingMoneyWindow();
-        // sendWindow.setVisible(true);
-
-        // GettingMoneyWindow getWindow = new GettingMoneyWindow();
-        // getWindow.setVisible(true);
-
         // // Vector elements = new Vector();
         // // elements.add(1);
         // // elements.add(2);
