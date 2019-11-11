@@ -164,9 +164,16 @@ class RegisterWindow extends JFrame {
                 String name = fullNameField.getText();
                 String login = loginField.getText();
                 String password = passwordField.getText();
-                if (name.length() != 0 && login.length() != 0 && password.length() != 0) {
+                String sex = "";
+
+                if (male.isSelected())
+                    sex = "Male";
+                else if (female.isSelected())
+                    sex = "Female";
+
+                if (name.length() != 0 && login.length() != 0 && password.length() != 0 && sex != "") {
                     System.out.println("User's name is: " + name + "\nUser's Login is: " + login
-                            + "\nUser's password is: " + password); // + "\nSex: " + bg.getSelection()
+                            + "\nUser's password is: " + password + "\nSex: " + sex);
                     setVisible(false);
                     LoginWindow loginWindow = new LoginWindow();
                     loginWindow.setVisible(true);
