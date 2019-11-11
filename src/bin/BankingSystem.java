@@ -3,6 +3,7 @@ package bin;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
@@ -171,8 +172,10 @@ class RegisterWindow extends JFrame {
                     sex = "Female";
 
                 if (name.length() != 0 && login.length() != 0 && password.length() != 0 && sex != "") {
-                    System.out.println("User's name is: " + name + "\nUser's Login is: " + login
+                    String userDataStr = ("User's name is: " + name + "\nUser's Login is: " + login
                             + "\nUser's password is: " + password + "\nSex: " + sex);
+                    JOptionPane.showMessageDialog(null, userDataStr);
+
                     setVisible(false);
                     LoginWindow loginWindow = new LoginWindow();
                     loginWindow.setVisible(true);
