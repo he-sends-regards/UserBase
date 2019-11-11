@@ -518,10 +518,6 @@ class SendingMoneyWindow extends JFrame {
     }
 }
 
-class MistakeWindow extends JFrame {
-
-}
-
 // import java.io.*;
 // import java.nio.file.Files;
 // import java.nio.file.Paths;
