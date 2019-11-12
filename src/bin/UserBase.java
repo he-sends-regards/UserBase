@@ -82,6 +82,12 @@ class RegisterWindow extends JFrame {
         super("Register");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        // add fileChooser for avatar
+        Box avatarBox = Box.createVerticalBox();
+        JLabel avatatLabel = new JLabel("Avatar:");
+        JButton chooseButton = new JButton("Choose file");
+
+
         Box box1 = Box.createHorizontalBox();
         JLabel fullNameLabel = new JLabel("Full name:");
         JTextField fullNameField = new JTextField(15);
@@ -141,6 +147,36 @@ class RegisterWindow extends JFrame {
         box7.add(Box.createHorizontalStrut(12));
         box7.add(cancel);
 
+        fullNameLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
+        loginLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
+        passwordLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
+        ageLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
+
+        Box mainBox = Box.createVerticalBox();
+        mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
+        mainBox.add(box1);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box4);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box2);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box5);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box6);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box3);
+        mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(box7);
+
+        setContentPane(mainBox);
+        pack();
+        setResizable(false);
+
+        chooseButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                open();
+            }
+        });
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,31 +231,33 @@ class RegisterWindow extends JFrame {
                 myProgram.setVisible(true);
             }
         });
-
-        fullNameLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
-        loginLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
-        passwordLabel.setPreferredSize(passwordConfirmLabel.getPreferredSize());
-
-        Box mainBox = Box.createVerticalBox();
-        mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
-        mainBox.add(box1);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box2);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box3);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box4);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box5);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box6);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box7);
-        setContentPane(mainBox);
-        pack();
-        setResizable(false);
     }
 
+    // method to open chooser of files to set the avatar for user (in process)
+    void open() throws IOException {
+        JFileChooser chooser = haxby.map.MapApp.getFileChooser();
+        int mode = chooser.getFileSelectionMode();
+        boolean multi = chooser.isMultiSelectionEnabled();
+        chooser.setMultiSelectionEnabled( true );
+        chooser.setFileSelectionMode( JFileChooser.FILES_ONLY );
+        chooser.addChoosableFileFilter(imageFileFilter);
+
+        int ok = chooser.showOpenDialog(frame);
+        File[] choice = null;
+        if( ok!=chooser.CANCEL_OPTION ) choice = chooser.getSelectedFiles();
+        chooser.setMultiSelectionEnabled(multi);
+        chooser.setFileSelectionMode( mode );
+        chooser.removeChoosableFileFilter(imageFileFilter);
+
+        if( ok==chooser.CANCEL_OPTION ) {
+            return;
+        }
+
+        if (mapType == MapApp.MERCATOR_MAP)
+            openImagesMercator(choice);
+        else
+            openImagesPolar(choice);
+    }
     private static boolean arePasswordsEqual(char[] pass1, char[] pass2) {
         boolean isCorrect = true;
         if (pass1.length != pass2.length) {
