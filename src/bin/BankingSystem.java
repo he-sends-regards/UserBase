@@ -10,12 +10,9 @@ package bin;
 import java.util.Scanner;
 import java.io.*;
 import java.util.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 
 public class BankingSystem {
     public static void main(String[] args) {
@@ -301,7 +298,6 @@ class LoginWindow extends JFrame {
                     } catch (FileNotFoundException exception) {
                         System.err.println("File not found");
                     } catch (IOException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                 } else
