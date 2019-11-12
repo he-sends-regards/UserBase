@@ -1,1 +1,0 @@
-Name: [John] Login: [John123] Sex: [Male] Age: [21] Password is: [123] 
