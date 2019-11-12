@@ -5,8 +5,6 @@
     # Date: the 5th of November 2019
     # GitHub: https://github.com/postscriptumno/BankingSystem
 */
-package bin;
-
 import java.util.Scanner;
 import java.io.*;
 import java.util.*;
@@ -14,7 +12,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
 
-public class BankingSystem {
+public class UserBase {
     public static void main(String[] args) {
         StartWindow myProgram = new StartWindow();
         myProgram.setVisible(true);
