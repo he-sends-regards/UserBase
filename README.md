@@ -12,8 +12,7 @@
     </a>
 </div>
 <div>
-    <h3>Скриншоты программы</h3>
-      
+    <h3>Скриншоты программы</h3><br>
     <img src="images/User1.png">
     <img src="images/User2.png">
     <img src="images/example1.png">
