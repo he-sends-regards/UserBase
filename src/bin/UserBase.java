@@ -1,4 +1,3 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -361,7 +360,6 @@ class LoginWindow extends JFrame {
 
 class MainWindow extends JFrame {
     private static final long serialVersionUID = 1L;
-    private BufferedImage image;
     public MainWindow(String name, String login, String age, String sex, String avatarPath) throws IOException {
         super("Main Window");
         JMenuBar menuBar = new MainWindowMenuBar(MainWindow.this);
@@ -388,15 +386,15 @@ class MainWindow extends JFrame {
         userBox.add(ageLabel);
         userBox.add(sexLabel);
 
-        BufferedImage cityImage = read(new
-                File("images/city-bank300x500.jpg"));
-        JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
-        Box cityBox = Box.createHorizontalBox();
-        cityBox.add(cityLabel);
+        // BufferedImage cityImage = read(new
+        //         File("images/city-bank300x500.jpg"));
+        // JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
+        // Box cityBox = Box.createHorizontalBox();
+        // cityBox.add(cityLabel);
 
         Box workBox = Box.createVerticalBox();
         workBox.add(Box.createVerticalStrut(20));
-        workBox.add(cityBox);
+        // workBox.add(cityBox);
         workBox.add(Box.createVerticalStrut(20));
 
         workBox.add(Box.createVerticalStrut(20));
