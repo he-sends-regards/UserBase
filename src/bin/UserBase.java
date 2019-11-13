@@ -1,3 +1,4 @@
+
 /*
     # Authors: Lutskiy Ivan & Karpenko Danylo
     # Gmail: postscriptum.no@gmail.com
@@ -10,6 +11,9 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
+
+import static javax.swing.JFileChooser.CANCEL_OPTION;
+
 import java.awt.event.*;
 
 public class UserBase {
@@ -86,7 +90,6 @@ class RegisterWindow extends JFrame {
         Box avatarBox = Box.createVerticalBox();
         JLabel avatatLabel = new JLabel("Avatar:");
         JButton chooseButton = new JButton("Choose file");
-
 
         Box box1 = Box.createHorizontalBox();
         JLabel fullNameLabel = new JLabel("Full name:");
@@ -234,22 +237,23 @@ class RegisterWindow extends JFrame {
     }
 
     // method to open chooser of files to set the avatar for user (in process)
-    void open() throws IOException {
+    void open() {
         JFileChooser chooser = haxby.map.MapApp.getFileChooser();
         int mode = chooser.getFileSelectionMode();
         boolean multi = chooser.isMultiSelectionEnabled();
-        chooser.setMultiSelectionEnabled( true );
-        chooser.setFileSelectionMode( JFileChooser.FILES_ONLY );
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.addChoosableFileFilter(imageFileFilter);
 
         int ok = chooser.showOpenDialog(frame);
         File[] choice = null;
-        if( ok!=chooser.CANCEL_OPTION ) choice = chooser.getSelectedFiles();
+        if (ok != CANCEL_OPTION)
+            choice = chooser.getSelectedFiles();
         chooser.setMultiSelectionEnabled(multi);
-        chooser.setFileSelectionMode( mode );
+        chooser.setFileSelectionMode(mode);
         chooser.removeChoosableFileFilter(imageFileFilter);
 
-        if( ok==chooser.CANCEL_OPTION ) {
+        if (ok == CANCEL_OPTION) {
             return;
         }
 
@@ -258,6 +262,7 @@ class RegisterWindow extends JFrame {
         else
             openImagesPolar(choice);
     }
+
     private static boolean arePasswordsEqual(char[] pass1, char[] pass2) {
         boolean isCorrect = true;
         if (pass1.length != pass2.length) {
@@ -322,8 +327,10 @@ class LoginWindow extends JFrame {
                         if (founder == true) {
                             JOptionPane.showMessageDialog(null, ("User found"));
                             dispose();
-                            String name = userData.substring(userData.indexOf("Name: [") + 7, userData.indexOf("] Login")); 
-                            String age = userData.substring(userData.indexOf(" Age: [") + 7, userData.indexOf("] Password"));
+                            String name = userData.substring(userData.indexOf("Name: [") + 7,
+                                    userData.indexOf("] Login"));
+                            String age = userData.substring(userData.indexOf(" Age: [") + 7,
+                                    userData.indexOf("] Password"));
                             String sex = userData.substring(userData.indexOf("Sex: [") + 6, userData.indexOf("] Age"));
 
                             MainWindow mainWindow = new MainWindow(name, login, age, sex, passwordStr);
@@ -378,11 +385,12 @@ class MainWindow extends JFrame {
         JMenuBar menuBar = new MainWindowMenuBar(MainWindow.this);
         setJMenuBar(menuBar);
 
-        // BufferedImage cityImage = ImageIO.read(new File("/img/city-bank300x500.jpg"));
+        // BufferedImage cityImage = ImageIO.read(new
+        // File("/img/city-bank300x500.jpg"));
         // JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
         // BufferedImage avatar = ImageIO.read(new File("img/myAvatar200x200.png"));
         // JLabel avatarLabel = new JLabel(new ImageIcon(avatar));
-        
+
         JLabel fullNameLabel = new JLabel("Name: " + name);
         JLabel loginLabel = new JLabel("Login: " + login);
         JLabel ageLabel = new JLabel("Age: " + age);
