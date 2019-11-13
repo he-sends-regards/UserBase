@@ -118,7 +118,7 @@ class RegisterWindow extends JFrame {
         JLabel sexLabel = new JLabel("Choose sex:");
         JCheckBox male = new JCheckBox("male");
         JCheckBox female = new JCheckBox("female");
-        ButtonGroup bg = new ButtonGroup(); // создаем группу взаимного исключения
+        ButtonGroup bg = new ButtonGroup();
         bg.add(male);
         bg.add(female);
 
@@ -259,7 +259,7 @@ class LoginWindow extends JFrame {
     public LoginWindow() {
         super("Login");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        // Настраиваем первую горизонтальную панель (для ввода логина)
+
         Box box1 = Box.createHorizontalBox();
         JLabel loginLabel = new JLabel("Login:");
         JTextField loginField = new JTextField(15);
@@ -267,7 +267,7 @@ class LoginWindow extends JFrame {
         box1.add(loginLabel);
         box1.add(Box.createHorizontalStrut(6));
         box1.add(loginField);
-        // Настраиваем вторую горизонтальную панель (для ввода пароля)
+
         Box box2 = Box.createHorizontalBox();
         JLabel passwordLabel = new JLabel("Password:");
         JPasswordField passwordField = new JPasswordField(15);
@@ -275,7 +275,7 @@ class LoginWindow extends JFrame {
         box2.add(passwordLabel);
         box2.add(Box.createHorizontalStrut(6));
         box2.add(passwordField);
-        // Настраиваем третью горизонтальную панель (с кнопками)
+
         Box box3 = Box.createHorizontalBox();
         JButton ok = new JButton("Ok");
         JButton cancel = new JButton("Cancel");
@@ -312,7 +312,7 @@ class LoginWindow extends JFrame {
                                     userData.indexOf("] Password"));
                             String sex = userData.substring(userData.indexOf("Sex: [") + 6, userData.indexOf("] Age"));
                             String avatarPath = userData.substring(userData.indexOf("AvatarPath: [") + 13, userData.indexOf("]&end"));
-                            // тут наужно брать с базы путь к аватару
+
                             System.out.println(avatarPath);
                             MainWindow mainWindow = new MainWindow(name, login, age, sex, avatarPath);
                             mainWindow.setVisible(true);
@@ -342,9 +342,9 @@ class LoginWindow extends JFrame {
         box3.add(ok);
         box3.add(Box.createHorizontalStrut(12));
         box3.add(cancel);
-        // Уточняем размеры компонентов
+
         loginLabel.setPreferredSize(passwordLabel.getPreferredSize());
-        // Размещаем три горизонтальные панели на одной вертикальной
+
         Box mainBox = Box.createVerticalBox();
         mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
         mainBox.add(box1);
@@ -386,15 +386,8 @@ class MainWindow extends JFrame {
         userBox.add(ageLabel);
         userBox.add(sexLabel);
 
-        // BufferedImage cityImage = read(new
-        //         File("images/city-bank300x500.jpg"));
-        // JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
-        // Box cityBox = Box.createHorizontalBox();
-        // cityBox.add(cityLabel);
-
         Box workBox = Box.createVerticalBox();
         workBox.add(Box.createVerticalStrut(20));
-        // workBox.add(cityBox);
         workBox.add(Box.createVerticalStrut(20));
 
         workBox.add(Box.createVerticalStrut(20));
