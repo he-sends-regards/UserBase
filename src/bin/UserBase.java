@@ -448,6 +448,7 @@ class MainWindowMenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent actionEvent) {
                 LoginWindow login = new LoginWindow();
                 login.setVisible(true);
+                mainWindow.dispose();
             }
         });
 
@@ -456,6 +457,7 @@ class MainWindowMenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent actionEvent) {
                 RegisterWindow register = new RegisterWindow();
                 register.setVisible(true);
+                mainWindow.dispose();
             }
         });
     }
