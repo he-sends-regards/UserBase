@@ -1,2 +1,0 @@
-Name: [a] Login: [a] Sex: [Male] Age: [a] Password is: [a] AvatarPath: [/home/danylo/BankingSystem/images/myAvatar200x200.png]&end 
-Name: [q] Login: [q] Sex: [Male] Age: [q] Password is: [q] AvatarPath: [/home/danylo/Pictures/Wallpapers/1013809.jpg]&end 
