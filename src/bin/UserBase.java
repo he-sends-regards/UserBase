@@ -1,20 +1,17 @@
-
-/*
-    # Authors: Lutskiy Ivan & Karpenko Danylo
-    # Gmail: postscriptum.no@gmail.com
-    # Project: BankingSystem
-    # Date: the 5th of November 2019
-    # GitHub: https://github.com/postscriptumno/BankingSystem
-*/
-import java.util.Scanner;
-import java.io.*;
-import java.util.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
 
-import static javax.swing.JFileChooser.CANCEL_OPTION;
-
-import java.awt.event.*;
+import static javax.imageio.ImageIO.read;
 
 public class UserBase {
     public static void main(String[] args) {
@@ -41,7 +38,7 @@ class StartWindow extends JFrame {
         box2.add(action);
 
         Box box3 = Box.createHorizontalBox();
-        JButton signIn = new JButton("Sign in");
+        JButton signIn = new JButton("Log in");
         JButton register = new JButton("Register");
         box3.add(Box.createHorizontalGlue());
         box3.add(signIn);
@@ -81,16 +78,28 @@ class StartWindow extends JFrame {
 
 class RegisterWindow extends JFrame {
     private static final long serialVersionUID = 1L;
-
+    String avatarFilePath = "";
     public RegisterWindow() {
         super("Register");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // add fileChooser for avatar
-        Box avatarBox = Box.createVerticalBox();
-        JLabel avatatLabel = new JLabel("Avatar:");
+        Box avatarBox = Box.createHorizontalBox();
+        JLabel avatarLabel = new JLabel("Avatar:");
         JButton chooseButton = new JButton("Choose file");
 
+        chooseButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileopen = new JFileChooser();
+                int ret = fileopen.showDialog(null, "Открыть файл");
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    File file = fileopen.getSelectedFile();
+                    avatarFilePath = file.getPath();
+                }
+            }
+        });
+        avatarBox.add(avatarLabel);
+        avatarBox.add(Box.createHorizontalStrut(6));
+        avatarBox.add(chooseButton);
         Box box1 = Box.createHorizontalBox();
         JLabel fullNameLabel = new JLabel("Full name:");
         JTextField fullNameField = new JTextField(15);
@@ -169,17 +178,15 @@ class RegisterWindow extends JFrame {
         mainBox.add(Box.createVerticalStrut(12));
         mainBox.add(box3);
         mainBox.add(Box.createVerticalStrut(12));
+        mainBox.add(avatarBox);
+        mainBox.add(Box.createVerticalStrut(12));
         mainBox.add(box7);
+
 
         setContentPane(mainBox);
         pack();
         setResizable(false);
 
-        chooseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                open();
-            }
-        });
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -202,7 +209,7 @@ class RegisterWindow extends JFrame {
                         && sex != "") {
                     if (arePasswordsEqual(password, passwordConfirm)) {
                         String userDataStr = ("Name: [" + name + "] Login: [" + login + "] Sex: [" + sex + "] Age: ["
-                                + age + "] Password is: [" + passwordStr + "] \n");
+                                + age + "] Password is: [" + passwordStr + "] AvatarPath: [" + avatarFilePath + "] \n");
                         JOptionPane.showMessageDialog(null, userDataStr);
 
                         dispose();
@@ -211,7 +218,7 @@ class RegisterWindow extends JFrame {
 
                         try {
                             String dataToBase = ("Name: [" + name + "] Login: [" + login + "] Sex: [" + sex + "] Age: ["
-                                    + age + "] Password is: [" + passwordStr + "] \n");
+                                    + age + "] Password is: [" + passwordStr + "] AvatarPath: [" + avatarFilePath + "]&end \n");
                             FileWriter writer = new FileWriter("base.txt", true);
                             writer.write(dataToBase);
                             writer.flush();
@@ -234,33 +241,6 @@ class RegisterWindow extends JFrame {
                 myProgram.setVisible(true);
             }
         });
-    }
-
-    // method to open chooser of files to set the avatar for user (in process)
-    void open() {
-        JFileChooser chooser = haxby.map.MapApp.getFileChooser();
-        int mode = chooser.getFileSelectionMode();
-        boolean multi = chooser.isMultiSelectionEnabled();
-        chooser.setMultiSelectionEnabled(true);
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.addChoosableFileFilter(imageFileFilter);
-
-        int ok = chooser.showOpenDialog(frame);
-        File[] choice = null;
-        if (ok != CANCEL_OPTION)
-            choice = chooser.getSelectedFiles();
-        chooser.setMultiSelectionEnabled(multi);
-        chooser.setFileSelectionMode(mode);
-        chooser.removeChoosableFileFilter(imageFileFilter);
-
-        if (ok == CANCEL_OPTION) {
-            return;
-        }
-
-        if (mapType == MapApp.MERCATOR_MAP)
-            openImagesMercator(choice);
-        else
-            openImagesPolar(choice);
     }
 
     private static boolean arePasswordsEqual(char[] pass1, char[] pass2) {
@@ -332,8 +312,10 @@ class LoginWindow extends JFrame {
                             String age = userData.substring(userData.indexOf(" Age: [") + 7,
                                     userData.indexOf("] Password"));
                             String sex = userData.substring(userData.indexOf("Sex: [") + 6, userData.indexOf("] Age"));
-
-                            MainWindow mainWindow = new MainWindow(name, login, age, sex, passwordStr);
+                            String avatarPath = userData.substring(userData.indexOf("AvatarPath: [") + 13, userData.indexOf("]&end"));
+                            // тут наужно брать с базы путь к аватару
+                            System.out.println(avatarPath);
+                            MainWindow mainWindow = new MainWindow(name, login, age, sex, avatarPath);
                             mainWindow.setVisible(true);
                         } else
                             JOptionPane.showMessageDialog(null, "User not found");
@@ -379,39 +361,42 @@ class LoginWindow extends JFrame {
 
 class MainWindow extends JFrame {
     private static final long serialVersionUID = 1L;
-
-    public MainWindow(String name, String login, String age, String sex, String password) throws IOException {
+    private BufferedImage image;
+    public MainWindow(String name, String login, String age, String sex, String avatarPath) throws IOException {
         super("Main Window");
         JMenuBar menuBar = new MainWindowMenuBar(MainWindow.this);
         setJMenuBar(menuBar);
-
-        // BufferedImage cityImage = ImageIO.read(new
-        // File("/img/city-bank300x500.jpg"));
-        // JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
-        // BufferedImage avatar = ImageIO.read(new File("img/myAvatar200x200.png"));
-        // JLabel avatarLabel = new JLabel(new ImageIcon(avatar));
 
         JLabel fullNameLabel = new JLabel("Name: " + name);
         JLabel loginLabel = new JLabel("Login: " + login);
         JLabel ageLabel = new JLabel("Age: " + age);
         JLabel sexLabel = new JLabel("Sex: " + sex);
-        JLabel passwordLabel = new JLabel("Password: " + password);
+        BufferedImage avatar;
+        if (avatarPath.length() == 0) {
+            avatar = read(new File("images/unknown.jpg"));
+        } else {
+            avatar = read(new File(avatarPath));
+        }
+
+        JLabel avatarLabel = new JLabel(new ImageIcon(avatar));
 
         Box userBox = Box.createVerticalBox();
-        // userBox.add(avatarLabel);
         userBox.add(Box.createVerticalStrut(20));
+        userBox.add(avatarLabel);
         userBox.add(fullNameLabel);
         userBox.add(loginLabel);
         userBox.add(ageLabel);
         userBox.add(sexLabel);
-        userBox.add(passwordLabel);
 
-        // Box cityBox = Box.createHorizontalBox();
-        // cityBox.add(cityLabel);
+        BufferedImage cityImage = read(new
+                File("images/city-bank300x500.jpg"));
+        JLabel cityLabel = new JLabel(new ImageIcon(cityImage));
+        Box cityBox = Box.createHorizontalBox();
+        cityBox.add(cityLabel);
 
         Box workBox = Box.createVerticalBox();
         workBox.add(Box.createVerticalStrut(20));
-        // workBox.add(cityBox);
+        workBox.add(cityBox);
         workBox.add(Box.createVerticalStrut(20));
 
         workBox.add(Box.createVerticalStrut(20));
