@@ -287,7 +287,6 @@ class LoginWindow extends JFrame {
                 String login = loginField.getText();
                 char[] password = passwordField.getPassword();
                 String passwordStr = new String(password);
-
                 String userData = "";
 
                 if (login.length() != 0 && password.length != 0) {
@@ -300,12 +299,12 @@ class LoginWindow extends JFrame {
                                     && line.contains(" Password is: [" + passwordStr + "]")) {
                                 founder = true;
                                 userData = line;
-                            }
+                            } 
                         }
 
                         if (founder == true) {
                             JOptionPane.showMessageDialog(null, ("User found"));
-                            dispose();
+                            dispose(); // left!!!
                             String name = userData.substring(userData.indexOf("Name: [") + 7,
                                     userData.indexOf("] Login"));
                             String age = userData.substring(userData.indexOf(" Age: [") + 7,
@@ -313,7 +312,6 @@ class LoginWindow extends JFrame {
                             String sex = userData.substring(userData.indexOf("Sex: [") + 6, userData.indexOf("] Age"));
                             String avatarPath = userData.substring(userData.indexOf("AvatarPath: [") + 13, userData.indexOf("]&end"));
 
-                            System.out.println(avatarPath);
                             MainWindow mainWindow = new MainWindow(name, login, age, sex, avatarPath);
                             mainWindow.setVisible(true);
                         } else
