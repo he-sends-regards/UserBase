@@ -28,5 +28,5 @@ The software implementation was performed using the Java programming language.<b
     Fill in the fields:<br>
     <img src="Screenshots/login_win_2.png"><br>
     Following, if such a user is found in the database, an account window (MainWindow) will open:<br>
-    <img src="/Users/macbook/Documents/Coding/Java/UserBase/Screenshots/main_win.png"><br>
+    <img src="Screenshots/main_win.png"><br>
 </div>
