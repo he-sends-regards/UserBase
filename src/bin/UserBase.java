@@ -360,6 +360,7 @@ class MainWindow extends JFrame {
     private static final long serialVersionUID = 1L;
     public MainWindow(String name, String login, String age, String sex, String avatarPath) throws IOException {
         super("Main Window");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         JMenuBar menuBar = new MainWindowMenuBar(MainWindow.this);
         setJMenuBar(menuBar);
 
