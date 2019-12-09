@@ -1,0 +1,124 @@
+--------------------------------------+
+		Классы:
+1) UserBase
+2) StartWindow
+3) RegisterWindow
+4) LoginWindow
+5) MainWindow
+6) MainWindowMenuBar
+
+--------------------------------------+
+		UserBase:
+Attributes:
+
+Methods:
+  + main(String[])
+
+Extends:
+
+Use:
+
+RelationShip:
+  + StartWindow
+
+--------------------------------------+
+		StartWindow:
+Attributes:
+  - final long serialVersionUID
+
+Methods:
+  + StartWindow()
+
+Extends:
+  + JFrame (setDefaultCloseOperation(), setAlignment(), dispose(), setContentPane, pack(), setResizable(), super(), setVisible())
+
+Use:
+  + ActionListener(addActionListener())
+  +ActionEvent()
+
+RelationShip:
+  + RegisterWindow
+  + LoginWindow
+
+--------------------------------------+
+		RegisterWindow:
+Attributes:
+  - final long serialVersionUID
+  + String avatarFilePath
+
+Methods:
+  + RegisterWIndow()
+  - arePasswordsEqual(char[], char[])
+
+Extends:
+  + JFrame (setDefaultCloseOperation(), setAlignment(), dispose(), setContentPane(), pack(), setResizable(), super(), setVisible())
+
+Use:
+  + ActionListener(addActionListener())
+  + ActionEvent()
+  + File(getSelectedFile(), getPath())
+  + FileWriter(write(), flush(), close())
+
+RelationShip:
+  + MainWindow(String, String, String, String, String)
+
+--------------------------------------+
+		LoginWindow:
+Attributes:
+  - final long serialVersionUID
+
+Methods:
+  + LoginWIndow()
+
+Extends:
+  + JFrame (setDefaultCloseOperation(), setAlignment(), dispose(), setContentPane(), pack(), setResizable(), super(), setVisible())
+
+Use:
+  + ActionListener(addActionListener())
+  + ActionEvent()
+  + File()
+  + Scanner(hasNextLine(), close())
+  + FileNotFoundException()
+  + IOException(printStackTrace())
+
+RelationShip:
+  + MainWindow(String, String, String, String, String)
+
+--------------------------------------+
+		MainWindow:
+Attributes:
+  - final long serialVersionUID
+
+Methods:
+  + MainWIndow(String, String, String, String, String)
+
+Extends:
+  + JFrame (setDefaultCloseOperation(), setAlignment(), dispose(), setContentPane(), pack(), setResizable(), super(), setVisible())
+
+Use:
+  + BufferedImage
+  + ActionListener(addActionListener())
+  + ActionEvent()
+  + File(read())
+
+RelationShip:
+
+---------------------------------------
+		MainWindow:
+Attributes:
+  - final long serialVersionUID
+
+Methods:
+  + MainWIndowMenuBar(MainWindow)
+
+Extends:
+  + JMenuBar(super())
+
+Use:
+  + ActionListener(addActionListener())
+  + ActionEvent()
+
+RelationShip:
+  - LoginWindow
+  - RegisterWindow
+
