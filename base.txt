@@ -1,2 +1,1 @@
-Name: [Ivan] Login: [entire] Sex: [Male] Age: [18] Password is: [qwerty] AvatarPath: [/Users/macbook/Documents/Coding/Java/UserBase/images/avatar6.png]&end 
-Name: [Danylo] Login: [danylokarpenko] Sex: [Male] Age: [18] Password is: [12345q] AvatarPath: [/Users/macbook/Documents/Coding/Java/UserBase/images/avatar5.png]&end 
+Name: [Ivan] Login: [entire] Sex: [Male] Age: [18] Password is: [qwerty] AvatarPath: [/Users/macbook/Documents/Coding/Java/UserBase/images/avatar6.png]&end
